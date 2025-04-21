@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>翻牌記憶遊戲</title>
+    <style>
+        #board {
+            display:grid;
+            grid:repeat(3,90px) / repeat(3,90px);
+        }
+
+    </style>
+    <script>
+        function gameInit() {
+            cards=[1,1,2,2,3,3,4,4,5,5,6,6];
+            b=document.getElementById("board");
+            //cards.forEach(card=>{...});
+            for(i=0;i<cards.length;i++) {
+                a=document.createElement("img");
+                a.className="card";
+            a.src="c:\Users\USER\Desktop\pic\0.png";
+            b.appendChild(a);
+
+            }
+            img=Array.from(document.getElementsByClassName("card"));
+        }
+        function gameStart(){
+            cards.sort((a,b)=>(Math.random()-0.5));
+            for(i=0;i<imgs.length;i++){
+                imgs[i].src='pic/${cards[i]}.png';
+            }
+            setTimeout(function(){
+                imgs.forEach(img=>{img.src="pic/0.png";});    
+                },3000);
+        }
+        function pickImg(){
+            if(!gameStarting || p2!=0) return;
+            img=event.target;
+            idx=imgs.indexOf (img);
+            if(p1==0){
+                p1=idx;
+            } else {
+                p2=idx;
+            }
+            img.src='pic/${cards[idx]}.png';
+        }
+    </script>
+</head>
+<body onload="gameInit();">
+    <div id="board">
+        <img src="c:\Users\USER\Desktop\pic\0.png">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+        <img src="">
+    </div>
+</body>
+</html>
