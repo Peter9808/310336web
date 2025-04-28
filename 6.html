@@ -1,0 +1,73 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>0428筆記打字遊戲</title>
+    <style>
+        .word {
+            display:inline-block;
+            width: 50px;
+            border: 5px solid gray;
+            text-align: center;
+            font-size: 32pt;
+            font-family: Arial, Helvetica, sans-serif;
+            position: relative;
+        }
+    </style>
+    <script>
+        input="";
+        function kbDown(){
+            //console.log(event.key)
+            event.preventDefault();
+            if(event.key=="Enter") {
+                input="";
+            } else if(event.key.length ==1){
+                input+=event.key;
+                /* not ready */
+                var words=Array.from(document.getElementsByClassName("word"))
+            }
+        }
+        function rand(min,max){
+            return Math.floor(Math.random()*(max-min+1))+min;
+        }
+        function genWord(){
+            /*
+            var wordlist=["hello","world","apple","banana","cake"];
+            var idx=Math.floor(Math.random()*wordlist.length);
+            return worldlist[idx];
+            */
+           var len=rand(3,9);
+           var str="";
+           for(i=0;i<len;i++) {
+            var CAPS=[65,97];
+            var randnum=rand(0,25)+CAPS[rand(0,1)];
+            str+String.fromCharCode(randnum);
+           }
+           return str;
+        }
+        function gameStart(){
+            document.getElementById("btnStart").style.display="none";
+            input="";
+            t1=setInterval(function(){
+                var a=document.createElement("div");
+                a.className="word";
+                a.innerHTML=genWord();
+                a.pos={x:rand(10,document.body.offsetWidth-100),y:0};
+                a.move=setInterval(function(o){
+                    o.pos.y+=5;
+                    o.style.top=o.pos.y+"px";
+                    if(o.pos.y > (document.body.offsetHeight-500)) {
+                        clearInterval(o.move);
+                        o.remove();
+                    }
+                },500,a);
+                document.body.appendChild(a);
+
+            },2000);
+        }
+    </script>
+</head>
+<body nokeydown="kbDown():">
+    <button id="btnStart" onclick="gameStart();">遊戲開始</button>
+    <div class="word">A</div>
+</body>
+</html>
