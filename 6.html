@@ -3,6 +3,10 @@
     <meta charset="UTF-8">
     <title>0428筆記打字遊戲</title>
     <style>
+        #status{
+            display : none;
+             background: ;    
+        }
         .word {
             display:inline-block;
             width: 50px;
@@ -16,16 +20,23 @@
     <script>
         input="";
         function kbDown(){
-            //console.log(event.key)
             event.preventDefault();
+            words=Array.from(document.getElementsByClassName("word"));
+            words.forEach(function(w){
+                w.innerHTML=w.innerText;
+            });
             if(event.key=="Enter") {
+                words.filter(function(w){
+                    return w.innerText==input;
+                }).forEach(function(w){
+                    clearInterval(w.move);
+                    w.remove();
+                });
                 input="";
-            } else if(event.key.length ==1){
-                input+=event.key;
-                /* not ready */
-                var words=Array.from(document.getElementsByClassName("word"))
+            } else if(event.key=="backspace") {
+                input=input.substr(0,input.length-1);
             }
-        }
+
         function rand(min,max){
             return Math.floor(Math.random()*(max-min+1))+min;
         }
@@ -46,6 +57,7 @@
         }
         function gameStart(){
             document.getElementById("btnStart").style.display="none";
+            document.getElementById("status").style.display="block";
             input="";
             t1=setInterval(function(){
                 var a=document.createElement("div");
@@ -67,6 +79,7 @@
     </script>
 </head>
 <body nokeydown="kbDown():">
+    <div id="status">經過時間:<span id="gameTime">0</span>秒　/div>
     <button id="btnStart" onclick="gameStart();">遊戲開始</button>
     <div class="word">A</div>
 </body>
