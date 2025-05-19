@@ -24,6 +24,16 @@
             function gameInit(){
                 role=document.getElementById("role");
                 role.pos={x:0,y:0};
+                role.faceTo=-1;/*Stop*/
+                role.move=setInterval(function(){
+                    if(role.faceTo<0)return;
+                    var dx=[0,-1,1,0];
+                    var dy=[1,0,0,-1];
+                    role.pos.x += dx[role.faceTo];
+                    role,pos.y += dy[role.faceTo];
+                    role.style.left=role.pos.x+"px";
+                    role.style.top=role.pos.y+"px";
+                },50);
             }
             function mykeydown() {
                 event.preventDefault();
@@ -34,21 +44,14 @@
                     role.faceto=dir.indexOf(key);
                     role.style.backgroundPositionY=`-${role.faceTo *72}px`
                 }
-                if(key=="ArrowUp") {
-                } else if (key=="ArrowDown") {
-                 role.style.backgroundPositionY="0px";
-                }else if (key=="ArrowLeft") {
-                 role.style.backgroundPositionY="-72px";
-                }else if (key=="ArrowRight") {
-                 role.style.backgroundPositionY="-144px"
-                }else if(key=="ArrowUp") {
-                 role.style.backgroundPostionY="-216px"
-                }
-                
+            }
+            function mykeydown(){
+                role.faceTo=-1;
+                role.style.backgroundPositionY="0px";
             }
         </script>
     </head>
-    <body onkeydown="mykeydown()">
+    <body onload="gameInit();" onkeydown="mykeydown();" onkeyup="mykeyup();"
         <div id="role"></div>
     </body>
 </html>

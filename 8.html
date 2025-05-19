@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>0519-宇宙射擊遊戲</title>
+        <meta charset="UTF-8">
+        <style>
+            #universal {
+                width: 800px;
+                height: 800px;
+                position: relative;
+                background-image: url("pic/bg_stars.jpg");
+                animation: bgmove 3s linear infinite;
+            }
+            @keyframes identifier {
+                0%{background-position-y:0px;}
+                100%{background-position-y:216px;}
+            }
+            #ship{
+                width: 40px;
+                position: absolute;
+    
+                
+            #bullet {
+
+            }
+        </style>
+        <script>
+            function gameInit(){
+                ship=document.getElementById("ship");
+                ship.pos={x:380,y:740};
+                ship.style.left=ship.pos.x+"px";
+                ship.style.top=ship.pos.y+"px";
+                ship.moving=0;/*0 to stop,+1 to right,-1 to left */
+                ship.move=setInterval(function(){
+                    if(ship.moving==0) return;
+                    if(ship.pos.x==0&&ship.moving<0) return;
+                    if(ship.pos.x==760&& ship.moving>0) return;
+                    ship.pos.x +=ship.moving;
+                    ship.style.left=ship.pos.x+"px";
+                },10)
+            }
+            function shoot(){
+                var b=document.createElement("div");
+                b.className="bullet";
+                b.pos={x:ship.pos.x+18,y:ship.pos.y-6};
+                b.style.left=b.pos.x+"px";
+                b.style.top=b.pos.y+"px";
+                b.move=setInterval(function(){
+                    if(b.pos.y<0) {
+
+                    }
+                    b.pos.y--;
+                    b.style.top=b.pos.y+"px";
+                },10);
+                document.getElementById("universal").appendChild(b);
+            }
+            function die(obj) {
+                clearInterval(obj.move);
+                obj.remove();
+            }
+            function mykeydown() {
+                event.preventDefault();
+                if(event.key=="ArrowLeft"){
+                    ship.moving=-1;
+                } else if (event.key=="ArrowRight") {
+                    ship.moving=1;
+                } else if(event.key="") {
+                    shoot();
+                }
+            }
+            function mykeydown(){
+                ship.moving=0;
+            }
+        </script>
+    </head>
+    <body onload="gameInit();"onkeydown="mykeydown();">
+        <div id="status"></div>
+        <div id="universal">
+            <div id="ship" src="pic/ship.png">
+        </div>
+    </body>
+</html>
