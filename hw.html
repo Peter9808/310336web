@@ -1,28 +1,94 @@
 <html>
 <head>
+    <title>期末作業</title>
     <meta charset="UTF-8">
-    <title></title>
-</head>
-<style>
-    body { margin-top: 2000px; 
-        }
+    <style>
     #grass{
                 width: 900px;
                 height: 800x;
                 position: relative;
                 background-image: url("pic/grass.jpg");
 }
-#monkey{
+#monkey{     
     position: absolute;
     background-image:url("pic/DonkeyKongMP7.jpg") ;
     transform: scale(0.8);
 }
+.banana {
+width: 10px;
+height: 10px;
+}
 
 </style>
-<body>
-    <div id="grass"></div>
+<script>
+            function gameInit() {
+                ship=document.getElementById("monkey");
+            monkey.w=40;
+            monkey.h=60;
+            monkey.pos={x:(800-ship.w)/2,y:800-ship.h};
+            monkey.style.left=ship.pos.x+"px";
+            monkey.style.top=ship.pos.y+"px";
+            monkey.moving=0; /* 0 to stop,+1 to right,-1 to left */
+            monkey.move=setInterval(function(){
+                if(monkey.moving==0) return;
+                if(monkey.pos.x==0 && monkey.moving <0) return;
+                if(monkey.pos.x==800-monkey.w && monkey.moving >0) return;
+                monkey.pos.x += monkey.moving;
+                monkey.style.left=monkey.pos.x+"px";
+            },1);
+            setInterval(newbanana,1000);
+            game_score=0;
+            game_second=0;
+            setInterval(function(){
+                game_second++;
+                document.getElementById("gametime").innerHTML=game_second;
+            },1000);      
+        }       
+    function mykeydown(){
+        event.preventDefault();
+        if(event.key=="ArrowLeft") {
+            monkey.moving=-1;
+        } else if(event.key=="ArrowRight") {
+            monkey.moiving=1;
+        }
+    }
+function mykeyup(){
+    moneky.moving=0;
+}
+function die(obj){
+    clearInterval(obj.move);
+    obj.remove;
+}
+function rand(min,max) {
+    return Math.floor(Math.random()*(max-min+1))+min;
+}
+function newbanana() {
+    var u=document.createElement("img");
+            u.src="pic/14912994-unnamed_l.webp";
+            u.className="banana";
+            u.w=60;
+            u.h=40;
+            u.pos={x:rand(0,800-u.w),y:-u.h};
+            u.style.left=u.pos.x+"px";
+            u.style.top=u.pos.y+"px";
+            u.move=setInterval(function(){
+                u.pos.x+=rand(-1,1);
+                if(u.pos.x > 800-u.w) u.pos.x=800-u.w;
+                else if(u.pos.x < 0) u.pos.x=0;
+                u.pos.y++;
+                u.style.left=u.pos.x+"px";
+                u.style.top=u.pos.y+"px";
+                if(u.pos.y > 800-u.h) die(u);
+            },30);
+            document.getElementById("grass").appendChild(u);
+        }
+</script>
+</head>
+<body onload="gameInit();" onkeydown="mykeydown();" onkeyup="mykeyup();">
+    <div id="status">Time: <span id="gametime">0</span>秒 Score:<span id="gamescore">0</span>分</div>
+    <div id="grass">
     <img id="monkey" src="pic/DonkeyKongMP7.jpg">
-
-    
+    <img id="banana" src="pic/14912994-unnamed_l.webp" style="transform:scale(0.1)">
+    </div>
 </body>
 </html>
