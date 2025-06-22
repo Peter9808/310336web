@@ -1,0 +1,106 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>期末作業</title>
+  <style>
+    #grass {
+      width: 900px;
+      height: 800px;
+      position: relative;
+      background-image: url("pic/grass.jpg");
+    }
+
+    #chicken {
+      position: absolute;
+      width: 150px;
+      height: 100px;
+      transform: scale(0.8);
+    }
+
+    .egg {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+    }
+  </style>
+
+  <script>
+
+    function gameInit() {
+      chicken = document.getElementById("chicken");
+      chicken.w = 40;
+      chicken.h = 60;
+      chicken.pos = {
+        x: (900 - chicken.w) / 2,
+        y: 800 - chicken.h
+      };
+
+      chicken.style.left = chicken.pos.x + "px";
+      chicken.style.top = chicken.pos.y + "px";
+
+      chicken.movingX = 0;
+      chicken.movingY = 0;
+
+      setInterval(function () {
+        chicken.pos.x += chicken.movingX;
+        chicken.pos.y += chicken.movingY;
+        chicken.style.left = chicken.pos.x + "px";
+        chicken.style.top = chicken.pos.y + "px";
+      }, 10);
+    }
+
+    function mykeydown() {
+      event.preventDefault();
+      if (event.key === "ArrowLeft") {
+        chicken.movingX = -1;
+      } else if (event.key === "ArrowRight") {
+        chicken.movingX = 1;
+      } else if (event.key === "ArrowUp") {
+        chicken.movingY = -1;
+      } else if (event.key === "ArrowDown") {
+        chicken.movingY = 1;
+      } else if (event.key === " ") {
+        shootEgg();
+      }
+    }
+
+    function mykeyup() {
+      if (event.key == "ArrowLeft" ||  event.key == "ArrowRight") {
+        chicken.movingX = 0;
+      }
+      if (event.key == "ArrowUp" || event.key == "ArrowDown") {
+        chicken.movingY = 0;
+      }
+    }
+    function shootEgg() {
+      const egg = document.createElement("div");
+      egg.className = "egg";
+      egg.pos = {
+        x: chicken.pos.x + chicken.w / 2 - 5,
+        y: chicken.pos.y + chicken.h
+      };
+      egg.style.left = egg.pos.x + "px";
+      egg.style.top = egg.pos.y + "px";
+
+      document.getElementById("grass").appendChild(egg);
+
+      egg.move = setInterval(function () {
+        egg.pos.y += 3;
+        egg.style.top = egg.pos.y + "px";
+
+        if (egg.pos.y > 800) {
+          clearInterval(egg.move);
+          egg.remove();
+        }
+      }, 10);
+    }
+  </script>
+</head>
+
+<body onload="gameInit()" onkeydown="mykeydown(event)" onkeyup="mykeyup(event)">
+  <div id="grass">
+    <img id="chicken" src="pic/pixel-art-8bit-brown-chicken-260nw-1241907154-removebg-preview.png">
+    <img id="egg" src="pic/brown-chicken-egg-pixel-art-vector-removebg-preview.png" style="width: 30px; height: 30px; position: absolute;">
+  </div>
+</body>
+</html>
